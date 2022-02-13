@@ -5,8 +5,19 @@ const path = require('path');
 //las variables de entorno
 require('dotenv').config();
 
-//Lo inicializamos
+//Lo inicializamos/App de express
 const app = express();
+
+//Node Server - Socket Server
+//El paquete http viene instalado con Node
+//Usamos toda la conf de express para este servidor
+const server = require('http').createServer(app);
+//Exportamos el io hacia el archivo socket.io
+module.exports.io = require('socket.io')(server);
+
+require('./sockets/socket');
+
+
 
 //Path publico / carpeta publica
 //dirname apuntara donde esta instalado el server
@@ -21,7 +32,7 @@ app.use(express.static(publicPath));
 //Escuchamos y si hay un error lo retornamos
 //Si no hay errores retornamos el print
 //Este servidor ya esta escuchando peticiones
-app.listen(process.env.PORT, (err) => {
+server.listen(process.env.PORT, (err) => {
     if(err) throw new Error(err);
     console.log('Servidor corriendo en puerto', process.env.PORT);
 });

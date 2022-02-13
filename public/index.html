@@ -8,5 +8,27 @@
 </head>
 <body>
     <h1>Acceso Denegado</h1>
+    <script src="socket.io/socket.io.js"></script>
+    <!-- Hace el llamado de la conexion a nuetro socket server -->
+    <script>
+        /* io se encuentra dentro de la libreria del anterior script */
+        var socket = io();
+
+        socket.on('connect', function(){
+            console.log('Conectado al servidor')
+        });
+
+        socket.on('disconnect', function(){
+            console.log('Perdimos comunicacion con el servidor')
+        });
+        //Emitimos un mensaje hacia el backend
+        socket.emit('mensaje', {nombre: 'Lian'});
+        //Recibimos el mensaje en el frontend enviado
+        //desde el back
+        socket.on('recibido', function(payload){
+            console.log('reibido', payload);
+        });
+
+    </script>
 </body>
 </html>
